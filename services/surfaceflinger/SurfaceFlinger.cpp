@@ -77,6 +77,9 @@
 
 #include "RenderEngine/RenderEngine.h"
 #include <cutils/compiler.h>
+#if defined(BOARD_USES_HDMI)
+#include "SecTVOutService.h"
+#endif
 
 #define DISPLAY_COUNT       1
 
@@ -171,6 +174,11 @@ SurfaceFlinger::SurfaceFlinger()
     }
     ALOGI_IF(mDebugRegion, "showupdates enabled");
     ALOGI_IF(mDebugDDMS, "DDMS debugging enabled");
+
+    #if defined(BOARD_USES_HDMI)
+    LOGD(">>> Run hdmi service");
+    android::SecTVOutService::instantiate();
+    #endif
 }
 
 void SurfaceFlinger::onFirstRef()
